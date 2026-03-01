@@ -2,6 +2,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { LogOut, User as UserIcon } from "lucide-react";
+import MemoApp from "./components/MemoApp";
 
 export default function App() {
   const { signIn, signOut } = useAuthActions();
@@ -9,7 +10,7 @@ export default function App() {
 
   if (user === undefined) {
     return (
-      <div className="flex w-full items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="flex w-full min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
@@ -64,45 +65,34 @@ export default function App() {
   }
 
   return (
-    <div className="flex w-full min-h-screen flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-[2rem] shadow-2xl overflow-hidden transform transition-all duration-500 border border-gray-100 dark:border-gray-700">
-        <div className="h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-90"></div>
-        <div className="px-8 pb-8">
-          <div className="relative flex justify-center -mt-12 mb-6">
-            <div className="h-24 w-24 bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg">
-              <div className="h-full w-full bg-indigo-50 dark:bg-indigo-900/50 rounded-full flex items-center justify-center">
-                <UserIcon className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
-              </div>
-            </div>
+    <div className="flex w-full min-h-screen flex-col items-center p-4 md:p-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      {/* 상단 네비게이션바 (환영 인사 & 로그아웃) */}
+      <header className="w-full max-w-6xl flex justify-between items-center mb-8 px-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 rounded-full">
+            <UserIcon className="w-6 h-6" />
           </div>
-          
-          <div className="text-center space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white capitalize truncate">
-                {user.name || "Authenticated User"}
-              </h2>
-              <div className="mt-3 flex flex-col items-center gap-2">
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">User ID</span>
-                <div className="inline-flex items-center px-4 py-2 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700">
-                  <code className="text-sm font-mono text-indigo-600 dark:text-indigo-400 truncate max-w-[200px]">
-                    {user._id}
-                  </code>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-gray-100 dark:border-gray-700/50">
-              <button
-                onClick={() => void signOut()}
-                className="w-full flex items-center justify-center gap-2 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-transparent rounded-xl px-4 py-4 font-semibold transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-rose-100 dark:focus:ring-rose-900/30"
-              >
-                <LogOut className="w-5 h-5" />
-                Sign Out Securely
-              </button>
-            </div>
+          <div>
+            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
+              안녕하세요, <span className="text-indigo-600 dark:text-indigo-400">{user.name || "사용자"}</span>님!
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">환영합니다. 메모를 관리해보세요.</p>
           </div>
         </div>
-      </div>
+        
+        <button
+          onClick={() => void signOut()}
+          className="flex items-center gap-2 px-4 py-2.5 bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20 rounded-xl font-semibold transition-colors shadow-sm"
+        >
+          <LogOut className="w-4 h-4" />
+          로그아웃
+        </button>
+      </header>
+
+      {/* 메인 콘텐츠 (메모 앱) */}
+      <main className="w-full max-w-6xl">
+        <MemoApp />
+      </main>
     </div>
   );
 }

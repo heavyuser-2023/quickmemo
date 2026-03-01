@@ -34,7 +34,7 @@ export default defineConfig(({ mode }) => {
         ],
       },
       devOptions: {
-        enabled: true, // Enable PWA in dev mode for testing
+        enabled: false, // 개발 모드에서는 SW 비활성화 (캐시 간섭 방지)
       }
     }),
   ],
