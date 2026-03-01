@@ -6,7 +6,7 @@
   "homepage": "https://heavyuser-2023.github.io/OauthTest",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist --dotfiles",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
